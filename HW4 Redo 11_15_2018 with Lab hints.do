@@ -40,10 +40,10 @@ reg Employed fb
 *(a.ii)
 reg Employed fb i.year
 *(a.iii)
-xtset statefip
-xtreg fb i.year , fe 
+
+xtreg Employed fb , fe i(statefip)
 *(a.iv)
-reg Employed fb i.year i.state
+xtreg Employed fb i.year, fe i(statefip)
 
 
 ********Part (b)*********************
@@ -58,12 +58,12 @@ reg Employed fb i.year i.state
 *(c.i)
 reg Employed fb if age<30
 *(c.ii)
-reg Employed i.year if age<30
+reg Employed fb i.year if age<30
 *(c.iii)
-xtset statefip 
-xtreg fb i.year if age<30, fe 
+
+xtreg Employed fb if age<30, fe i(statefip) 
 *(c.iv)
-reg Employed fb i.year i.state if age<30
+xtreg Employed fb i.year if age<30, fe i(statefip)
 
 ********Part (d)*********************
 
@@ -77,12 +77,12 @@ reg Employed fb i.year i.state if age<30
 *(e.i)
 reg Employed fb if age>=30
 *(e.ii)
-reg Employed i.year if age>=30
+reg Employed fb i.year if age>=30
 *(e.iii)
-xtset statefip 
-xtreg fb i.year if age>=30, fe 
+
+xtreg Employed fb if age>=30, fe i(statefip)
 *(e.iv)
-reg Employed fb i.year i.state if age>=30
+xtreg Employed fb i.year if age>=30, fe i(statefip)
 
 ********Part (f)*********************
 
@@ -175,7 +175,7 @@ reg fb_share fb_share_hat, cluster(cluster_var)
 ********Part (g)*********************
 *Repeat Table 1, this time using IV
 
-use ind.dta
+
 ****Create Employed Indicator Variable
 tab empstat
 tab empstat, nolabel
@@ -185,14 +185,13 @@ tab Employed
 
 
 *(g.i) Instead of (a.i) reg Employed fb
-reg Employed fb_share_hat
+ivreg Employed (fb_share = fb_share_hat)
 *(g.ii) Instead of (a.ii)reg Employed fb i.year
-reg Employed fb_share_hat i.year
+xi: ivreg Employed i.year (fb_share = fb_share_hat)
 *(g.iii)Instead of (a.iii)xtset statefip  ; xtreg fb i.year , fe 
-xtset statefip
-xtreg Employed fb_share_hat , fe
+xtivreg Employed  (fb_share = fb_share_hat), fe i(statefip) 
 *(g.iv) Instead of *(a.iv)reg Employed fb i.year i.state
-reg Employed fb_share_hat i.year i.state
+xi: xtivreg Employed i.year (fb_share = fb_share_hat), fe i(statefip)
 
 
 ********Part (h)**********************
@@ -209,6 +208,7 @@ reg Employed fb_share_hat i.year i.state
 *tab statefip
 *tab statefip, nolabel
 ****statefip code is 32 for Nevada 63,363 obs
+/*
 use HW4.dta if year==2016 & statefip==32
 
 **8Use probit command to see what we should get then build ML version
@@ -291,7 +291,7 @@ args todo Beta lnF
 	mleval `XBeta'=`Beta', eq(1)
   mleval `Sigma'=`Beta', 
   */
-  
+  /*
  **A program to calculate the likelihood for a given beta vector
   capture program drop todds_reg_d0
   program define todds_reg_d0
@@ -313,5 +313,43 @@ args todo Beta lnF
   
   end 
   
-    ml model d0 todds_reg_d0 (Employed= fb_share_hat ) /sigma
+    ml model d0 todds_reg_d0 (Employed= age ) /sigma
   ml max
+
+  */
+  */
+  *********MLE
+
+  drop if year!=2016
+  drop if statefip!=32
+  
+  ***Program in ML
+  capture program drop lfprobit
+  
+  program lfprobit
+  args lnf xb
+  local y "$ML_y1"
+  quietly replace `lnf'=ln(normal(`xb')) if `y'==1
+  quietly replace `lnf'=ln(1-normal(`xb')) if `y'==0
+  end
+  ml model lf lfprobit (Employed=age)
+  ml maximize
+  
+  
+  probit Employed age
+  ***Part B
+  
+  
+  
+  
+  
+  ********Part C
+  
+  logit Employed age
+  
+  
+  regress Employed age, robust
+  
+  predict Employed_hat, xb
+  twoway scatter Employed_hat age
+  
