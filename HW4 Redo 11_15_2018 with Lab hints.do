@@ -35,17 +35,39 @@ gen Employed=1 if empstat==1
 replace Employed=0 if empstat==2 | empstat==3
 tab Employed
 
+
+eststo clear
 *(a.i)
-reg Employed fb
+eststo: reg Employed fb
+*regsave 
+*list
+*texsave using "HW4_a.i", title(OLS of a dummy for an native born worker being employed on the share
+*foreign born.)
+
 *(a.ii)
-reg Employed fb i.year
+eststo: reg Employed fb i.year
+*regsave 
+*list
+*texsave using "HW4_a.ii", title(Same as above, using time dummies.)
+
 *(a.iii)
 
-xtreg Employed fb , fe i(statefip)
+eststo: xtreg Employed fb , fe i(statefip)
+*regsave 
+*list
+*texsave using "HW4_a.iii", title(Same as above, using state fixed effects with xtreg.)
+
 *(a.iv)
-xtreg Employed fb i.year, fe i(statefip)
+eststo: xtreg Employed fb i.year, fe i(statefip)
+*regsave 
+*list
+*texsave using "HW4_a.iv", title(Using both state Fixed effects and time dummies.)
 
 
+
+esttab using PartAregv2.tex, label nostar ///
+ 	title(Part A Regression Table\label{tab1})
+	eststo clear
 ********Part (b)*********************
 *(b.i) Interpretation
 *(b.ii) Interpretation
@@ -56,15 +78,18 @@ xtreg Employed fb i.year, fe i(statefip)
 ********Part (c)*********************
 
 *(c.i)
-reg Employed fb if age<30
+eststo: reg Employed fb if age<30
 *(c.ii)
-reg Employed fb i.year if age<30
+eststo: reg Employed fb i.year if age<30
 *(c.iii)
 
-xtreg Employed fb if age<30, fe i(statefip) 
+eststo: xtreg Employed fb if age<30, fe i(statefip) 
 *(c.iv)
-xtreg Employed fb i.year if age<30, fe i(statefip)
+eststo: xtreg Employed fb i.year if age<30, fe i(statefip)
 
+esttab using PartCregv2.tex, label nostar ///
+ 	title(Part C Regression Table 2\label{tab1})
+	eststo clear
 ********Part (d)*********************
 
 *(d.i) Interpretation
@@ -75,15 +100,18 @@ xtreg Employed fb i.year if age<30, fe i(statefip)
 ********Part (e)*********************
 
 *(e.i)
-reg Employed fb if age>=30
+eststo: reg Employed fb if age>=30
 *(e.ii)
-reg Employed fb i.year if age>=30
+eststo: reg Employed fb i.year if age>=30
 *(e.iii)
 
-xtreg Employed fb if age>=30, fe i(statefip)
+eststo: xtreg Employed fb if age>=30, fe i(statefip)
 *(e.iv)
-xtreg Employed fb i.year if age>=30, fe i(statefip)
+eststo: xtreg Employed fb i.year if age>=30, fe i(statefip)
 
+esttab using PartEregv2.tex, label nostar ///
+ 	title(Part E Regression Table 3\label{tab1})
+	eststo clear
 ********Part (f)*********************
 
 *(f.i) Interpretation
@@ -147,7 +175,7 @@ gen fb_share_hat=imm_hat/(imm_hat+nat)
 
 *********END Todd's UBER-ULTIMATE LAB HINTS 11.15.2018****************
 
-*****Things we did in lab directly in Stata Command line
+*****Things we did in lab directly in Stata Command line that I typed in lab
 /*
 
 reg fb_share imm_hat, cluster(statefip)
@@ -174,7 +202,7 @@ reg fb_share fb_share_hat, cluster(cluster_var)
 
 ********Part (g)*********************
 *Repeat Table 1, this time using IV
-
+eststo clear
 
 ****Create Employed Indicator Variable
 tab empstat
@@ -185,19 +213,36 @@ tab Employed
 
 
 *(g.i) Instead of (a.i) reg Employed fb
-ivreg Employed (fb_share = fb_share_hat)
+eststo: ivreg Employed (fb_share = fb_share_hat)
+*Relevancy Test
+reg fb_share fb_share_hat
+
 *(g.ii) Instead of (a.ii)reg Employed fb i.year
-xi: ivreg Employed i.year (fb_share = fb_share_hat)
+eststo: xi: ivreg Employed i.year (fb_share = fb_share_hat)
+*Relevancy Test
+*reg fb fb_share
+
 *(g.iii)Instead of (a.iii)xtset statefip  ; xtreg fb i.year , fe 
-xtivreg Employed  (fb_share = fb_share_hat), fe i(statefip) 
+eststo: xtivreg Employed  (fb_share = fb_share_hat), fe i(statefip)
+*Relevancy Test
+*reg fb fb_share
+ 
 *(g.iv) Instead of *(a.iv)reg Employed fb i.year i.state
-xi: xtivreg Employed i.year (fb_share = fb_share_hat), fe i(statefip)
+eststo: xi: xtivreg Employed i.year (fb_share = fb_share_hat), fe i(statefip)
+*Relevancy Test
+*reg fb fb_share
+
+
+esttab using PartGregv2.tex, label nostar ///
+ 	title(Part G Regression Table 3\label{tab1})
+	eststo clear
+
 
 
 ********Part (h)**********************
 * Interpret regression. (relevancy, validity,and a local average treatment effects interpretation of your model. Also discuss
 *bounding your estimates if the IV is not valid. 
-
+*
 
 **************PROBLEM 2**********************
 
@@ -339,10 +384,14 @@ args todo Beta lnF
   probit Employed age
   ***Part B
   
-  
-  
-  
-  
+  **Marginal Effects of Age at Mean Age
+  *Get means 
+  estat sum
+  *Put in condensed matrix list
+  matrix list r(stats)
+  *Name it
+  matrix r = r(stats)
+  scalar f1 = normalden(_b[age]*r[2,1]+ _b[_cons])
   ********Part C
   
   logit Employed age

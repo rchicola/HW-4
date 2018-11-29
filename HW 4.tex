@@ -1,0 +1,293 @@
+\documentclass{article}
+\usepackage{amsmath, enumitem}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage[margin=1in]{geometry}
+\usepackage{float}
+\restylefloat{table}
+\usepackage{placeins}
+
+
+
+\begin{document}
+
+\title{Econ 741 Homework 4}
+\author{John Appert, Randall Chicola, Andrea Franz}
+\maketitle
+\section{Question 1:Immigration and Employment} 
+
+
+\begin{enumerate}[label=\alph*]
+\item Using the data from 2005-2016, run the following regressions, and present the
+results in a table: (Table 1) (4 points)\\
+
+Answer:\\
+Unable to get the table to appear under. It keeps generating at the bottom of the document. Apologies for the inconvenience.
+\begin{table}[htbp]\centering
+\caption{Part A Regression Table\label{tab1}}
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+                    &\multicolumn{1}{c}{Employed}&\multicolumn{1}{c}{Employed}&\multicolumn{1}{c}{Employed}&\multicolumn{1}{c}{Employed}\\
+\hline
+(mean) fb           &      -0.106&      -0.115&       0.468&      0.0402\\
+                    &    (-62.23)&    (-67.24)&     (40.63)&      (3.06)\\
+[1em]
+2005                &            &           0&            &           0\\
+                    &            &         (.)&            &         (.)\\
+[1em]
+2006                &            &    -0.00946&            &    -0.00976\\
+                    &            &    (-12.70)&            &    (-13.11)\\
+[1em]
+2007                &            &     -0.0139&            &     -0.0142\\
+                    &            &    (-18.67)&            &    (-19.09)\\
+[1em]
+2008                &            &     0.00379&            &     0.00391\\
+                    &            &      (5.09)&            &      (5.25)\\
+[1em]
+2009                &            &     -0.0347&            &     -0.0344\\
+                    &            &    (-46.66)&            &    (-46.31)\\
+[1em]
+2010                &            &     -0.0492&            &     -0.0489\\
+                    &            &    (-66.32)&            &    (-66.06)\\
+[1em]
+2011                &            &     -0.0776&            &     -0.0763\\
+                    &            &   (-105.25)&            &   (-102.42)\\
+[1em]
+2012                &            &     -0.0663&            &     -0.0650\\
+                    &            &    (-89.79)&            &    (-87.06)\\
+[1em]
+2013                &            &     -0.0541&            &     -0.0523\\
+                    &            &    (-73.44)&            &    (-69.75)\\
+[1em]
+2014                &            &     -0.0423&            &     -0.0405\\
+                    &            &    (-57.41)&            &    (-53.82)\\
+[1em]
+2015                &            &     -0.0333&            &     -0.0315\\
+                    &            &    (-45.35)&            &    (-41.73)\\
+[1em]
+2016                &            &     -0.0228&            &     -0.0206\\
+                    &            &    (-30.99)&            &    (-27.01)\\
+[1em]
+Constant            &       0.710&       0.745&       0.620&       0.720\\
+                    &   (2308.25)&   (1237.81)&    (339.51)&    (323.85)\\
+\hline
+Observations        &     9651005&     9651005&     9651005&     9651005\\
+\hline\hline
+\multicolumn{5}{l}{\footnotesize \textit{t} statistics in parentheses}\\
+\end{tabular}
+\end{table}
+
+
+\item Interpret the results of the regression. (8 points)\\
+
+(a.i) regression OLS of a dummy for an native born worker being employed on the share
+foreign born.\\
+
+This regression indicates that a one percent change in the share of foreign born individuals corresponds to a decrease of .1061851\% in the probability of a native born individual being employed. The t-score of -62.23 is significant at the 95\% confidence level. The adjusted R-squared is quite low at 0.0004. Naturally, there is likely a portion of our dependent Employed that is explained by more than one variable other than share of foreign born. Even if we added omitted variables, the coefficient would still likely biased. We could test other independent variables to see if they are positively correlated with Employed and then test to see if those variables are positively or negatively correlated with the share of foreign born to see if we have upward or downward bias respectively.\\
+
+(a.ii) regression Same as above, using time dummies.\\
+
+Adding time dummies with the second regression indicates that in the base year of 2005, the one (percent) in the share of foreign born individuals corresponds to a .1148107\% decrease in the probability of a native born individual being employed. The adjusted R-squared has a small improvement to 0.0033 and the t-stat of -67.24 for fb (share of foreign born) is still significant at the 95\% confidence level. The coefficient for fb increasing in magnitude to .1148\% is complemented by negative coefficients for every year except 2008 where it is +0.0037916. the coefficients become negative again in 2009 in increasing magnitude (becoming a larger negative number) until 2011 (-0.0776204) which may correspond to the lagged labor employment effects to other macroeconomic variables that affect the probability of being employed other than time and the share of foreign born individuals that are omitted from the regression.\\
+
+(a.iii) regression Same as above, using state fixed effects with xtreg.\\
+
+This regression includes state fixed effects rather than the time dummies. The coefficient for fb (share of foreign born) indicates that a one percent increase in the share of foreign born corresponds to an increase in the probability of a native born individual being employed of .46776\% when accounting for state fixed effects. 
+If sigma e is the standard deviation of the idiosyncratic component (0.46008091), within subject standard deviation (within states) and sigma u is the between subject (state) standard deviation (0.46008091). 
+The constant intercept term 0.619118 may be the average value of the state fixed effects. The ratio of between groups variances to the total calculated by xtreg gives a rho of 0.01255962 indicates the individual state effects (u i) explain about 1\% of the variance in Y (Probability of being Employed).
+There is a difference between the rho 0.01255962 and R-sq for between=0.0128 and they may be different because the R squared is a sum of the squares rather than the a ratio of the between states to total. \\
+
+(a.iv) regression Using both state fixed effects and time dummies.\\
+
+This regression adding indicator variables for years along with the state fixed effects indicates that the coefficient for foreign born share in the 2005 base year that a one unit (percent) increase in foreign born corresponds with an increase in the probability a native born individual being employed by .0402166\%. The year coefficients in general are smaller in magnitude but still exhibit the same pattern with a positive coefficient in 2008 and increasingly negative coefficients until 2011 where it peaks at -0.0762997 before falling off again.\\
+
+\item Repeat this analysis using data only on native workers younger than 30. (Table
+2) (4 points)\\
+Again similar table placement issues, sorry about that, see below.\\
+\begin{table}[htbp]\centering
+\caption{Part C Regression Table 2\label{tab1}}
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+                    &\multicolumn{1}{c}{Employed}&\multicolumn{1}{c}{Employed}&\multicolumn{1}{c}{Employed}&\multicolumn{1}{c}{Employed}\\
+\hline
+(mean) fb           &      -0.136&      -0.146&       0.619&       0.140\\
+                    &    (-56.73)&    (-60.76)&     (37.99)&      (7.51)\\
+[1em]
+2005                &            &           0&            &           0\\
+                    &            &         (.)&            &         (.)\\
+[1em]
+2006                &            &     -0.0167&            &     -0.0172\\
+                    &            &    (-15.46)&            &    (-15.95)\\
+[1em]
+2007                &            &     -0.0235&            &     -0.0239\\
+                    &            &    (-21.86)&            &    (-22.33)\\
+[1em]
+2008                &            &    -0.00581&            &    -0.00559\\
+                    &            &     (-5.41)&            &     (-5.21)\\
+[1em]
+2009                &            &     -0.0517&            &     -0.0512\\
+                    &            &    (-48.40)&            &    (-47.98)\\
+[1em]
+2010                &            &     -0.0676&            &     -0.0671\\
+                    &            &    (-63.48)&            &    (-63.11)\\
+[1em]
+2011                &            &     -0.0980&            &     -0.0954\\
+                    &            &    (-93.35)&            &    (-89.99)\\
+[1em]
+2012                &            &     -0.0850&            &     -0.0824\\
+                    &            &    (-80.72)&            &    (-77.35)\\
+[1em]
+2013                &            &     -0.0712&            &     -0.0678\\
+                    &            &    (-67.69)&            &    (-63.26)\\
+[1em]
+2014                &            &     -0.0576&            &     -0.0540\\
+                    &            &    (-54.72)&            &    (-50.24)\\
+[1em]
+2015                &            &     -0.0471&            &     -0.0433\\
+                    &            &    (-44.77)&            &    (-40.12)\\
+[1em]
+2016                &            &     -0.0342&            &     -0.0298\\
+                    &            &    (-32.49)&            &    (-27.34)\\
+[1em]
+Constant            &       0.659&       0.708&       0.540&       0.661\\
+                    &   (1522.34)&    (811.61)&    (209.48)&    (210.34)\\
+\hline
+Observations        &     5286949&     5286949&     5286949&     5286949\\
+\hline\hline
+\multicolumn{5}{l}{\footnotesize \textit{t} statistics in parentheses}\\
+\end{tabular}
+\end{table}
+
+
+\item Interpret the results of the regression. (8 points)
+
+(c.i) regression reg Employed fb if age<30\\
+
+This regression indicates that a one percent increase in the share of foreign born decreases the probability of native born individual under 30 being employed by .1364658\%. The constant term would be the probability of a native born individual being employed under 30 being unemployed if fb were zero. Notwithstanding bias issues previously mentioned, we might interpret this larger coefficient of                  -0.1364658 to the  -0.1061851, as the share of foreign born increasing having a larger effect on those who may be younger with less job experience, education, etc. and consequently may be competing with foreign born skills with similar attributes. We would want to regress with the education and work experience of native and foreign born individuals to see if the assumptions of such a scenario are true or not.
+
+(c.ii) regression with time dummies\\
+
+This regression indicates that in the base year of 2005 increasing the share of foreign born individuals by one percent decreases the probability of employment of native born individuals under 30 by .1461574\%. The coefficients are now different than in previous regressions from part A, namely that 2008 coefficient is no longer positive (-.0058133), but it does still exhibit the same pattern of increasingly negative coefficients year to year before peaking in 2011 (-.0980094). This indicates 2008 had immediate employment impacts as well.\\
+
+For the 2005 base year, the coefficient -.1461574 compares to the (a.ii) regression -.1148107 which as in the comparison above indicates that increases in the share of foreign born has a more material impact on native individuals under 30 that the native born population at large. This is of course not withstanding the aforementioned objections to validity such as omitted variable bias.\\
+
+(c.iii) regression using state fixed effects with xtreg under 30\\
+
+This regression indicates that when accounting for the state fixed effects, a one percent increase in the share of foreign born individuals increases the probability of employment of native born individuals under 30 by .619406\%.  It is now a positive coefficient so this indicates state effects have a more material impact on employment probability that were biasing results in previous regressions and once accounted for, foreign born share increasing actually increases the probability of being employed. \\
+
+(c.iv) regression using state fixed effects and time dummies.\\
+
+This regression indicates that in the base year of 2005 that a one percent increase in the share of foreign born corresponds to an increase in the probability of employment for native born individuals under 30 of .1396007\%. Referring back to the previous regression the coefficient, the coefficient drop is significant when taking into account the time dummies.
+
+\item Repeat this analysis using data only on native workers age 30 or older. (Table 3)
+(4 points) \\
+
+It is again misplaced below. Sorry for the inconvenience. First time trying out the eststo commands. 
+
+\begin{table}[htbp]\centering
+\caption{Part E Regression Table 3\label{tab1}}
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+                    &\multicolumn{1}{c}{Employed}&\multicolumn{1}{c}{Employed}&\multicolumn{1}{c}{Employed}&\multicolumn{1}{c}{Employed}\\
+\hline
+(mean) fb           &     -0.0792&     -0.0838&       0.188&     -0.0384\\
+                    &    (-33.77)&    (-35.73)&     (11.96)&     (-2.13)\\
+[1em]
+2005                &            &           0&            &           0\\
+                    &            &         (.)&            &         (.)\\
+[1em]
+2006                &            &     0.00232&            &     0.00240\\
+                    &            &      (2.34)&            &      (2.42)\\
+[1em]
+2007                &            &     0.00189&            &     0.00203\\
+                    &            &      (1.90)&            &      (2.04)\\
+[1em]
+2008                &            &      0.0202&            &      0.0206\\
+                    &            &     (20.22)&            &     (20.60)\\
+[1em]
+2009                &            &    -0.00784&            &    -0.00735\\
+                    &            &     (-7.84)&            &     (-7.36)\\
+[1em]
+2010                &            &     -0.0199&            &     -0.0194\\
+                    &            &    (-19.98)&            &    (-19.52)\\
+[1em]
+2011                &            &     -0.0390&            &     -0.0383\\
+                    &            &    (-38.75)&            &    (-37.69)\\
+[1em]
+2012                &            &     -0.0313&            &     -0.0307\\
+                    &            &    (-31.14)&            &    (-30.18)\\
+[1em]
+2013                &            &     -0.0223&            &     -0.0215\\
+                    &            &    (-22.33)&            &    (-21.11)\\
+[1em]
+2014                &            &     -0.0131&            &     -0.0124\\
+                    &            &    (-13.10)&            &    (-12.10)\\
+[1em]
+2015                &            &    -0.00677&            &    -0.00615\\
+                    &            &     (-6.80)&            &     (-6.01)\\
+[1em]
+2016                &            &   -0.000110&            &    0.000695\\
+                    &            &     (-0.11)&            &      (0.67)\\
+[1em]
+Constant            &       0.774&       0.784&       0.732&       0.777\\
+                    &   (1826.49)&    (977.26)&    (292.46)&    (255.09)\\
+\hline
+Observations        &     4364056&     4364056&     4364056&     4364056\\
+\hline\hline
+\multicolumn{5}{l}{\footnotesize \textit{t} statistics in parentheses}\\
+\end{tabular}
+\end{table}
+
+\item Interpret the results of the regression. (8 points)\\
+
+(e.i) regression reg Employed fb if age $>=$ 30\\
+
+This regression indicates that a one percent increase in the share of foreign born corresponds to a decrease in the probability of native born individuals 30 years of age or older by .0791515\% . This coefficient is much lower than the .1364658\% for native individuals younger than 30 which would go along with the scenario that the effects of foreign labor competition affects younger native individuals. Again we would have to test with other variables such as education and labor market experience to better understand the plausibility of this scenario.
+
+(e.ii) regression using time dummies.\\
+
+This regression indicates that for the base year of 2005 that a one percent) increase in the share of foreign born individuals in the labor market, the probability of native born individuals 30 or older decreases by .0838477\%. This compares to the coefficient of -.1461574 for the regression for those under 30 which again fits the previous pattern that would fit the scenario of foreign labor competition having a greater effect on the employment probability of younger native individuals than older ones. 2006 to 2008 have positive coefficients which may correspond to the boom period prior to the 2008 crash. Older individuals may have a larger positive coefficient in boom years and have smaller negative coefficients as their experience or seniority may provide greater job security. \\
+
+(e.iii) regression using state fixed effects with xtreg.\\
+
+This regression indicates that when including state fixed effects, that an increase of one unit (percent) in the share of foreign born individuals corresponds to an .188179\% increase in the probability of a native born individual 30 or older being employed. This compares to the coefficient for native born individuals under 30 of .619406. It appears that the inclusion of the state fixed effects has a larger impact on native born individuals under thirty.\\
+
+(e.iv) regression using both state fixed effects and time dummies. \\
+
+This regression including both year and state fixed effects indicates that for the base year of 2005 that a one unit (percent) increase in the share of foreign born individuals corresponds to a .0384476\% decrease in the probability of employment for native born individuals 30 or older.  There is a change in the coefficients for the years compared to previous regressions in that until 2009, the coefficients are positive. Once the coefficients do turn negative, they becoming increasingly negative until peaking in 2011 (-.0382683) in line with the previous pattern.\\
+
+
+\item Repeat Table 1, this time using IV. (8 points)\\
+
+***Getting I/O error disk full when trying to run the regressions with estor. 
+
+
+
+\item Interpret the results of the regression. Specifically, discuss relevancy, validity,
+and a local average treatment effects interpretation of your model. Also discuss
+bounding your estimates if the IV is not valid. (16 points)\\
+
+\section{Question 2:Probits and Logits} 
+
+
+\item 
+
+Using only individuals in 2016 in Nevada, program a probit model in the ML
+environment to show how age effects employment (1 is employed, 0 is not employed). Show that this matches the results from the "probit" command in Stata.
+(20 points)\\
+
+Answer: Was able to match the ml program to probit but Regsave and texsave not cooperating in stata even though downloaded packages needed. May not be able to output into Latex. Alternate: Provide screen capture. 
+
+\item  
+
+Give the marginal effect of age at the mean of age and the mean of the marginal
+effect of age. Do this by calculating the effects without using margins or similar
+commands. (10 points)\\
+
+
+
+\end{enumerate}
+\end{document}
